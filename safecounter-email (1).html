@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>SafeCounter — Stop Losing Money at the Counter</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #e8eaed;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px;
+  }
+
+  .email-wrap {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #111827;
+    border-radius: 16px 16px 0 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 260px;
+  }
+
+  .header-left {
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+
+  .header-right {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 60%, #c2410c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-right::before {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    top: -60px; right: -60px;
+  }
+
+  .header-right::after {
+    content: '';
+    position: absolute;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    bottom: -30px; left: -30px;
+  }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: #f97316;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(249,115,22,0.4);
+  }
+
+  .logo-text {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+
+  .logo-text span { color: #f97316; }
+  .logo-sub { font-size: 9px; color: #6b7280; letter-spacing: 2px; display: block; margin-top: -2px; }
+
+  .header-headline {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.25;
+  }
+
+  .header-headline span { color: #f97316; }
+
+  .header-sub {
+    font-size: 12px;
+    color: #9ca3af;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+
+  .phone-mockup {
+    width: 130px;
+    background: #1f2937;
+    border-radius: 20px;
+    padding: 10px 8px;
+    border: 2px solid #374151;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    position: relative;
+    z-index: 2;
+  }
+
+  .phone-notch {
+    width: 40px; height: 6px;
+    background: #374151;
+    border-radius: 3px;
+    margin: 0 auto 8px;
+  }
+
+  .phone-screen {
+    background: #f0f2f5;
+    border-radius: 12px;
+    padding: 8px;
+    min-height: 160px;
+  }
+
+  .phone-header {
+    background: #fff;
+    border-radius: 7px;
+    padding: 5px 6px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .phone-logo-dot {
+    width: 14px; height: 14px;
+    background: #f97316;
+    border-radius: 4px;
+    font-size: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .phone-logo-txt {
+    font-size: 7px;
+    font-weight: 800;
+    color: #111827;
+  }
+
+  .phone-logo-txt span { color: #f97316; }
+
+  .phone-secured {
+    margin-left: auto;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 8px;
+    padding: 1px 4px;
+    font-size: 6px;
+    font-weight: 700;
+    color: #16a34a;
+  }
+
+  .phone-alert {
+    border-radius: 6px;
+    padding: 5px 6px;
+    margin-bottom: 4px;
+    font-size: 6.5px;
+    font-weight: 700;
+  }
+
+  .phone-alert-red { background: #fff1f2; border: 1px solid #fca5a5; color: #dc2626; }
+  .phone-alert-green { background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; }
+
+  .phone-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 6px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 4px;
+  }
+
+  .phone-card-job { font-size: 6px; font-weight: 800; color: #f97316; }
+  .phone-card-name { font-size: 7.5px; font-weight: 700; color: #111827; }
+  .phone-progress { height: 3px; background: #f3f4f6; border-radius: 2px; margin-top: 4px; }
+  .phone-progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #f97316, #ea580c); }
+
+  /* ── BODY ── */
+  .body {
+    background: #fff;
+    padding: 0;
+  }
+
+  /* ── COST BANNER ── */
+  .cost-banner {
+    background: #fff7ed;
+    border-top: 3px solid #f97316;
+    border-bottom: 1px solid #fed7aa;
+    padding: 24px 32px;
+  }
+
+  .cost-banner-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #ea580c;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .cost-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: #fed7aa;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .cost-cell {
+    background: #fff7ed;
+    padding: 16px 12px;
+    text-align: center;
+  }
+
+  .cost-cell.highlight { background: #fff1f2; }
+
+  .cost-num {
+    font-size: 30px;
+    font-weight: 800;
+    color: #f97316;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .cost-num.red { color: #ef4444; }
+
+  .cost-label {
+    font-size: 10px;
+    color: #6b7280;
+    line-height: 1.4;
+  }
+
+  .cost-label strong { color: #111827; font-weight: 700; display: block; }
+
+  /* ── HOW IT WORKS ── */
+  .section { padding: 28px 32px; }
+  .section-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #9ca3af;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .section-sub {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .steps { display: flex; flex-direction: column; gap: 10px; }
+
+  .step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .step-num {
+    width: 32px; height: 32px;
+    background: #f97316;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .step-content {}
+  .step-title { font-size: 13px; font-weight: 800; color: #111827; margin-bottom: 2px; }
+  .step-body { font-size: 12px; color: #6b7280; line-height: 1.5; }
+  .step-body strong { color: #f97316; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: #f3f4f6; margin: 0 32px; }
+
+  /* ── WORKS EVERYWHERE ── */
+  .agnostic-section {
+    padding: 28px 32px;
+    background: #f9fafb;
+  }
+
+  .supplier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .supplier-pill {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .supplier-icon { font-size: 16px; }
+  .supplier-info {}
+  .supplier-name { font-size: 11px; font-weight: 700; color: #111827; }
+  .supplier-examples { font-size: 9px; color: #9ca3af; line-height: 1.3; }
+
+  .agnostic-callout {
+    background: #fff7ed;
+    border: 1.5px solid #fdba74;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .agnostic-callout-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #ea580c;
+    margin-bottom: 6px;
+  }
+
+  .agnostic-callout-body {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+
+  /* ── PROOF ── */
+  .proof-section { padding: 28px 32px; }
+
+  .proof-quote {
+    background: #f9fafb;
+    border-left: 4px solid #f97316;
+    border-radius: 0 12px 12px 0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+
+  .proof-text {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  .proof-attr {
+    font-size: 11px;
+    font-weight: 700;
+    color: #f97316;
+  }
+
+  /* ── PRICING ── */
+  .pricing-section { padding: 0 32px 28px; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .pricing-card {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .pricing-card.featured { border-color: #f97316; }
+
+  .pricing-head {
+    background: #f9fafb;
+    padding: 12px 8px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .pricing-head.featured-head {
+    background: #f97316;
+    border-bottom-color: #ea580c;
+  }
+
+  .pricing-name {
+    font-size: 10px;
+    font-weight: 800;
+    color: #6b7280;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .pricing-name.white { color: #fff; }
+
+  .pricing-price {
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1;
+  }
+
+  .pricing-price.white { color: #fff; }
+  .pricing-price span { font-size: 11px; font-weight: 500; color: #9ca3af; }
+  .pricing-price.white span { color: rgba(255,255,255,0.7); }
+
+  .pricing-body { padding: 12px 10px; }
+
+  .pricing-feature {
+    font-size: 10px;
+    color: #6b7280;
+    padding: 3px 0;
+    border-bottom: 1px solid #f3f4f6;
+    line-height: 1.4;
+  }
+
+  .pricing-feature:last-child { border-bottom: none; }
+
+  .pricing-tag {
+    font-size: 9px;
+    color: #9ca3af;
+    margin-top: 8px;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+    padding: 32px;
+    text-align: center;
+  }
+
+  .cta-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .cta-title span { color: #f97316; }
+
+  .cta-sub {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: #f97316;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 14px 36px;
+    border-radius: 10px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+    margin-bottom: 14px;
+  }
+
+  .cta-secondary {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 8px;
+  }
+
+  .cta-secondary a { color: #f97316; text-decoration: none; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: #f9fafb;
+    border-radius: 0 0 16px 16px;
+    padding: 20px 32px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-size: 13px;
+    font-weight: 800;
+    color: #374151;
+    margin-bottom: 6px;
+  }
+
+  .footer-logo span { color: #f97316; }
+
+  .footer-links {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-bottom: 8px;
+  }
+
+  .footer-links a { color: #6b7280; text-decoration: none; }
+  .footer-links a:hover { color: #f97316; }
+
+  .footer-unsub {
+    font-size: 10px;
+    color: #d1d5db;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 500px) {
+    .header-grid { grid-template-columns: 1fr; }
+    .header-right { display: none; }
+    .cost-grid { grid-template-columns: 1fr; }
+    .supplier-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .section, .cost-banner, .agnostic-section, .proof-section, .pricing-section, .cta-section, .footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrap">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <div class="header-grid">
+      <div class="header-left">
+        <div class="logo-row">
+          <div class="logo-icon">🛡️</div>
+          <div>
+            <div class="logo-text">SAFE<span>COUNTER</span></div>
+            <span class="logo-sub">INDUSTRIAL AUTH v2.4</span>
+          </div>
+        </div>
+        <div>
+          <div class="header-headline">Stop Losing Money<br><span>at the Counter.</span></div>
+          <div class="header-sub">One app. Every supplier. Purchasing authorization in 90 seconds or less.</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <!-- Phone mockup -->
+        <div class="phone-mockup">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-logo-dot">🛡️</div>
+              <div class="phone-logo-txt">SAFE<span>COUNTER</span></div>
+              <div class="phone-secured">● SECURED</div>
+            </div>
+            <div class="phone-alert phone-alert-red">🚫 CREDIT LIMIT REACHED · JOB-2291</div>
+            <div class="phone-alert phone-alert-green">🛡️ AUTH SYSTEM ACTIVE · LIVE</div>
+            <div class="phone-card">
+              <div class="phone-card-job">JOB-4821</div>
+              <div class="phone-card-name">Delta Aerospace</div>
+              <div class="phone-progress"><div class="phone-progress-fill" style="width:54%;"></div></div>
+            </div>
+            <div class="phone-card">
+              <div class="phone-card-job">JOB-3302</div>
+              <div class="phone-card-name">Offshore Rig 7</div>
+              <div class="phone-progress"><div class="phone-progress-fill" style="width:18%;"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BODY ── -->
+  <div class="body">
+
+    <!-- Cost Banner -->
+    <div class="cost-banner">
+      <div class="cost-banner-label">THE REAL COST OF ONE COUNTER STANDOFF</div>
+      <div class="cost-grid">
+        <div class="cost-cell">
+          <div class="cost-num">$35</div>
+          <div class="cost-label"><strong>Field Worker</strong>45 min waiting<br>@ $47/hr</div>
+        </div>
+        <div class="cost-cell">
+          <div class="cost-num">$22</div>
+          <div class="cost-label"><strong>Foreman</strong>Pulled off job<br>@ $65/hr</div>
+        </div>
+        <div class="cost-cell highlight">
+          <div class="cost-num red">$57+</div>
+          <div class="cost-label"><strong style="color:#dc2626;">Per Incident</strong>Every time it<br>happens</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <div class="section">
+      <div class="section-label">HOW IT WORKS</div>
+      <div class="section-title">From counter standoff to approved transaction in 90 seconds.</div>
+      <div class="section-sub">No distributor setup required. No app install for the counter pro. Works at any industrial supply counter with a phone camera.</div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">employee Generates Live QR Token</div>
+            <div class="step-body">Opens SafeCounter, selects job code, gets a <strong>live QR code</strong> tied to their budget and authorized categories. Expires in 10 minutes. One-time use only.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Counter Pro Scans — No Setup Required</div>
+            <div class="step-body">Counter pro scans with their regular phone camera. Instantly sees <strong>name, job code, remaining budget,</strong> and authorized categories. No app. No login. No distributor integration needed.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">One-Tap Approval — Even Over Limit</div>
+            <div class="step-body">Within budget — approved in one tap. Over limit — <strong>foreman gets an instant notification</strong> with one-tap approve or deny. If foreman doesn't respond in 5 minutes, automatically escalates to office admin.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Everything Logged Automatically</div>
+            <div class="step-body">Every transaction, approval, denial, and escalation is <strong>timestamped and logged</strong> in real time. Office sees everything. Job costing becomes effortless.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Works Everywhere -->
+    <div class="agnostic-section">
+      <div class="section-label">DISTRIBUTOR AGNOSTIC</div>
+      <div class="section-title">Works everywhere your crew buys.</div>
+      <div class="section-sub">Your job codes follow you regardless of which supplier your crew visits that day.</div>
+
+      <div class="supplier-grid">
+        <div class="supplier-pill">
+          <div class="supplier-icon">🔥</div>
+          <div class="supplier-info">
+            <div class="supplier-name">Welding & Gas</div>
+            <div class="supplier-examples">Airgas · Matheson · Air Products</div>
+          </div>
+        </div>
+        <div class="supplier-pill">
+          <div class="supplier-icon">⚡</div>
+          <div class="supplier-info">
+            <div class="supplier-name">Electrical Supply</div>
+            <div class="supplier-examples">Graybar · Rexel · Wesco · Border States</div>
+          </div>
+        </div>
+        <div class="supplier-pill">
+          <div class="supplier-icon">🌡️</div>
+          <div class="supplier-info">
+            <div class="supplier-name">HVAC & Plumbing</div>
+            <div class="supplier-examples">Ferguson · Winsupply · Johnstone</div>
+          </div>
+        </div>
+        <div class="supplier-pill">
+          <div class="supplier-icon">🛡️</div>
+          <div class="supplier-info">
+            <div class="supplier-name">Safety & PPE</div>
+            <div class="supplier-examples">Grainger · Fastenal · MSC Industrial</div>
+          </div>
+        </div>
+        <div class="supplier-pill">
+          <div class="supplier-icon">🏗️</div>
+          <div class="supplier-info">
+            <div class="supplier-name">Roofing Supply</div>
+            <div class="supplier-examples">ABC Supply · Beacon · SRS Distribution</div>
+          </div>
+        </div>
+        <div class="supplier-pill">
+          <div class="supplier-icon">⛽</div>
+          <div class="supplier-info">
+            <div class="supplier-name">Oilfield & Energy</div>
+            <div class="supplier-examples">MRC Global · DXP · NOW Inc.</div>
+          </div>
+        </div>
+        <div class="supplier-pill">
+          <div class="supplier-icon">🪨</div>
+          <div class="supplier-info">
+            <div class="supplier-name">Concrete & Masonry</div>
+            <div class="supplier-examples">Oldcastle · US LBM · Quikrete</div>
+          </div>
+        </div>
+        <div class="supplier-pill">
+          <div class="supplier-icon">🎨</div>
+          <div class="supplier-info">
+            <div class="supplier-name">Painting & Coatings</div>
+            <div class="supplier-examples">Sherwin-Williams · PPG · Benjamin Moore</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="agnostic-callout">
+        <div class="agnostic-callout-title">One app. Every supplier. Zero counter standoffs.</div>
+        <div class="agnostic-callout-body">Most contractors buy from 3 to 7 different suppliers per job. SafeCounter covers all of them from day one — no distributor partnerships, no integrations, no setup. If a counter pro has a phone with a camera, SafeCounter works.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Proof -->
+    <div class="proof-section">
+      <div class="section-label">REAL SCENARIO</div>
+      <div class="section-title">Sound familiar?</div>
+
+      <div class="proof-quote">
+        <div class="proof-text">"A customer came in to buy three cylinders of helium — $7,000 a bottle, $21,000 total. He was over his credit limit. What should have been a 5-minute transaction turned into a 45-minute phone chain. The customer was furious. The counter was backed up. We almost lost the account over a paperwork problem."</div>
+        <div class="proof-attr">— Industrial Supply Counter Pro, Houston TX</div>
+      </div>
+
+      <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:14px;font-weight:800;color:#16a34a;margin-bottom:4px;">With SafeCounter that same situation resolves in 90 seconds.</div>
+        <div style="font-size:12px;color:#6b7280;line-height:1.5;">Foreman gets a push notification. One tap. Approved. Customer walks out with his helium. Counter moves on. Nobody's day gets ruined.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Pricing -->
+    <div class="pricing-section" style="padding-top:28px;">
+      <div class="section-label">SIMPLE PRICING</div>
+      <div class="section-title" style="margin-bottom:16px;">No surprises. Cancel anytime.</div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-head">
+            <div class="pricing-name">FIELD</div>
+            <div class="pricing-price">$49<span>/mo</span></div>
+          </div>
+          <div class="pricing-body">
+            <div class="pricing-feature">Up to 5 employees</div>
+            <div class="pricing-feature">3 active job codes</div>
+            <div class="pricing-feature">QR token generation</div>
+            <div class="pricing-feature">Counter pro scan page</div>
+            <div class="pricing-feature">Foreman override flow</div>
+            <div class="pricing-feature">Basic transaction log</div>
+            <div class="pricing-tag">Small crews · 1-2 job sites</div>
+          </div>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-head featured-head">
+            <div class="pricing-name white">FOREMAN ★ POPULAR</div>
+            <div class="pricing-price white">$149<span>/mo</span></div>
+          </div>
+          <div class="pricing-body">
+            <div class="pricing-feature">Up to 25 employees</div>
+            <div class="pricing-feature">Unlimited job codes</div>
+            <div class="pricing-feature">Escalation timer</div>
+            <div class="pricing-feature">Predictive credit alerts</div>
+            <div class="pricing-feature">Foreman dashboard</div>
+            <div class="pricing-feature">Weekly spend reports</div>
+            <div class="pricing-tag">Growing contractors</div>
+          </div>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-head">
+            <div class="pricing-name">OFFICE</div>
+            <div class="pricing-price">$349<span>/mo</span></div>
+          </div>
+          <div class="pricing-body">
+            <div class="pricing-feature">Unlimited employees</div>
+            <div class="pricing-feature">Credit Bridge — ACH</div>
+            <div class="pricing-feature">Limit increase requests</div>
+            <div class="pricing-feature">Multi-foreman mgmt</div>
+            <div class="pricing-feature">QuickBooks export</div>
+            <div class="pricing-feature">Dedicated support</div>
+            <div class="pricing-tag">Large firms · Accounting teams</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:12px;font-size:11px;color:#9ca3af;">
+        30-day free trial on all plans · No credit card required · Cancel anytime
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <div class="cta-title">Ready to stop losing money<br><span>at the counter?</span></div>
+      <div class="cta-sub">Join contractors across the industrial supply chain who've turned<br>45-minute standoffs into 90-second approvals.</div>
+      <a href="https://safecounter.app" class="cta-btn">Start Your Free 30-Day Trial</a>
+      <div class="cta-secondary">
+        No credit card required &nbsp;·&nbsp; Setup takes 15 minutes &nbsp;·&nbsp;
+        <a href="https://safecounter.app/demo">Watch the 3-minute demo →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <div class="footer-logo">SAFE<span>COUNTER</span> · Industrial Auth v2.4</div>
+    <div class="footer-links">
+      <a href="#">safecounter.app</a> &nbsp;·&nbsp;
+      <a href="#">View Demo</a> &nbsp;·&nbsp;
+      <a href="#">Contact Us</a> &nbsp;·&nbsp;
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div class="footer-unsub">You're receiving this because you expressed interest in SafeCounter. <a href="#" style="color:#9ca3af;">Unsubscribe</a></div>
+  </div>
+
+</div>
+</body>
+</html>
